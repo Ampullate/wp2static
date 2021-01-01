@@ -76,6 +76,33 @@ class DetectPluginAssets {
             }
         }
 
+        $mu_plugins_path = SiteInfo::getPath( 'mu_plugins' );
+        $mu_plugins_url = SiteInfo::getUrl( 'mu_plugins' );
+        if ( is_dir( $plugins_path ) ) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(
+                    $mu_plugins_path,
+                    RecursiveDirectoryIterator::SKIP_DOTS
+                )
+            );
+
+            foreach ( $iterator as $filename => $file_object ) {
+                $path_crawlable = FilesHelper::filePathLooksCrawlable( $filename );
+                if ( ! $path_crawlable ) {
+                    continue;
+                }
+
+                // Standardise all paths to use / (Windows support)
+                $filename = str_replace( '\\', '/', $filename );
+                $detected_filename = str_replace( $mu_plugins_path, $mu_plugins_url, $filename );
+                $detected_filename = str_replace( get_home_url(), '', $detected_filename );
+
+                if ( is_string( $detected_filename ) ) {
+                    array_push( $files, $detected_filename );
+                }
+            }
+        }
+
         return $files;
     }
 }

@@ -69,6 +69,26 @@ class WPCron {
             'display' => 'Every 10 minutes',
         ];
 
+        $schedules['60mins'] = [
+        	'interval' => 60 * MINUTE_IN_SECONDS,
+        	'display' => 'Every hour',
+        ];
+
+        $schedules['360mins'] = [
+        	'interval' => 360 * MINUTE_IN_SECONDS,
+        	'display' => 'Every 6 hours',
+        ];
+
+        $schedules['720mins'] = [
+        	'interval' => 720 * MINUTE_IN_SECONDS,
+        	'display' => 'Every 12 hours',
+        ];
+
+        $schedules['1440mins'] = [
+        	'interval' => 1440 * MINUTE_IN_SECONDS,
+        	'display' => 'Every 24 hours',
+        ];
+
         return $schedules;
     }
 

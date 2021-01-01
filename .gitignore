@@ -5,3 +5,6 @@ coverage/
 admin/*.js*
 .phpunit.result.cache
 
+/.buildpath
+/.project
+/.settings/
