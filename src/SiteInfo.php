@@ -63,6 +63,8 @@ class SiteInfo {
             // Plugins
             'plugins_path' => trailingslashit( WP_PLUGIN_DIR ),
             'plugins_url' => trailingslashit( plugins_url() ),
+            'mu_plugins_path' => trailingslashit( WPMU_PLUGIN_DIR ),
+            'mu_plugins_url' => trailingslashit( WPMU_PLUGIN_URL ),
 
             // Themes
             'themes_root_path' => trailingslashit( get_theme_root() ),
