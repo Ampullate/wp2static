@@ -149,7 +149,7 @@ class Crawler {
                 // check content type, serve .xml/rss, etc instead
                 if ( mb_substr( $root_relative_path, -1 ) === '/' ) {
                     StaticSite::add( $root_relative_path . 'index.html', $crawled_contents );
-                } else if ( mb_strpos( $root_relative_path, '.', max( [-5, -mb_strlen($root_relative_path)] ) ) === FALSE ) {
+                } else if ( mb_strpos( $root_relative_path, '.', max( [-11, -mb_strlen($root_relative_path)] ) ) === FALSE ) {
                     StaticSite::add( trailingslashit( $root_relative_path ) . 'index.html', $crawled_contents );
                 } else {
                     StaticSite::add( $root_relative_path, $crawled_contents );
