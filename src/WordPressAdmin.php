@@ -205,6 +205,13 @@ class WordPressAdmin {
         );
 
         add_action(
+        		'admin_post_wp2static_manually_run_jobs',
+        		[ Controller::class, 'wp2staticProcessJobsQueue' ],
+        		10,
+        		0
+        );
+
+        add_action(
             'admin_post_wp2static_toggle_addon',
             [ Controller::class, 'wp2staticToggleAddon' ],
             10,

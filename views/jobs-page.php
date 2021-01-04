@@ -129,62 +129,100 @@
 
     <br>
 
-    <b>Process Queue Interval</b>
+    <h4>Cron jobs</h4>
+    <table class="widefat striped">
+        <thead>
+            <tr>
+                <td colspan="2"><b>Process Queue Interval and Server Limitation</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <label for="<?php echo $view['jobOptions']['processQueueInterval']->name; ?>" /><?php echo $view['jobOptions']['processQueueInterval']->label; ?>:</label><br/>
+                    <p><i><?php echo $view['jobOptions']['processQueueInterval']->description; ?></i></p>
+                    <p><i>If WP-Cron is not expected to be triggered by site visitors, you can also call `wp-cron.php` directly,
+                    run the WP-CLI command `wp wp2static process_queue` or call the hook `wp2staticProcessQueue` from within your
+                    own theme or plugin.</i></p>
+                </td>
+                <td width="*">
+                    <select
+                        id="<?php echo $view['jobOptions']['processQueueInterval']->name; ?>"
+                        name="<?php echo $view['jobOptions']['processQueueInterval']->name; ?>"
+                        value="<?php echo (int) $view['jobOptions']['processQueueInterval']->value; ?>"
+                    />
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 0 ? 'selected' : ''; ?>
+                            value="0">disable (never)</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 1 ? 'selected' : ''; ?>
+                            value="1">every minute</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 5 ? 'selected' : ''; ?>
+                            value="5">every 5 minutes</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 10 ? 'selected' : ''; ?>
+                            value="10">every 10 minutes</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 60 ? 'selected' : ''; ?>
+                            value="60">every hour</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 360 ? 'selected' : ''; ?>
+                            value="360">every 6 hours</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 720 ? 'selected' : ''; ?>
+                            value="720">every 12 hours</option>
+                        <option
+                            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 1440 ? 'selected' : ''; ?>
+                            value="1440">every 24 hours</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="<?php echo $view['jobOptions']['serverLimitation']->name; ?>" /><?php echo $view['jobOptions']['serverLimitation']->label; ?>:</label><br/>
+                    <i><?php echo $view['jobOptions']['serverLimitation']->description; ?></i>
+                </td>
+                <td width="*">
+                    <input
+                        type="text"
+                        id="<?php echo $view['jobOptions']['serverLimitation']->name; ?>"
+                        name="<?php echo $view['jobOptions']['serverLimitation']->name; ?>"
+                        value="<?php echo $view['jobOptions']['serverLimitation']->value; ?>"
+                    />
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <br>
-
-    <label
-        for=""
-    />WP-Cron will attempt to process the Job Queue at this interval:</label>
-
-    <select
-        id="<?php echo $view['jobOptions']['processQueueInterval']->name; ?>"
-        name="<?php echo $view['jobOptions']['processQueueInterval']->name; ?>"
-        value="<?php echo (int) $view['jobOptions']['processQueueInterval']->value; ?>"
-    />
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 0 ? 'selected' : ''; ?>
-            value="0">disable (never)</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 1 ? 'selected' : ''; ?>
-            value="1">every minute</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 5 ? 'selected' : ''; ?>
-            value="5">every 5 minutes</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 10 ? 'selected' : ''; ?>
-            value="10">every 10 minutes</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 60 ? 'selected' : ''; ?>
-            value="60">every hour</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 360 ? 'selected' : ''; ?>
-            value="360">every 6 hours</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 720 ? 'selected' : ''; ?>
-            value="720">every 12 hours</option>
-        <option
-            <?php echo (int) $view['jobOptions']['processQueueInterval']->value === 1440 ? 'selected' : ''; ?>
-            value="1440">every 24 hours</option>
-    </select>
-
-    <p><i>If WP-Cron is not expected to be triggered by site visitors, you can also call `wp-cron.php` directly, run the WP-CLI command `wp wp2static process_queue` or call the hook `wp2staticProcessQueue` from within your own theme or plugin.</i></p>
 
         <button class="button btn-primary">Save Job Automation Settings</button>
         <?php wp_nonce_field( $view['nonce_action'] ); ?>
         <input name="action" type="hidden" value="wp2static_ui_save_job_options" />
     </form>
 
-    <br>
+    <hr>
+
     <form
         name="wp2static-manually-enqueue-jobs"
         method="POST"
-        action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
+        action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" style="display: inline;">
 
         <?php wp_nonce_field( 'wp2static-manually-enqueue-jobs' ); ?>
         <input name="action" type="hidden" value="wp2static_manually_enqueue_jobs" />
 
         <button class="button">Manually Enqueue Jobs Now</button>
+    </form>
+    <form
+        name="wp2static-manually-run-jobs"
+        method="POST"
+        action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" style="display: inline;">
+
+        <?php wp_nonce_field( 'wp2static-manually-run-jobs' ); ?>
+        <input name="action" type="hidden" value="wp2static_manually_run_jobs" />
+
+        <button class="button">Run Enqueued Jobs Now</button>
     </form>
 
     <hr>

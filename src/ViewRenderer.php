@@ -229,6 +229,7 @@ class ViewRenderer {
             'autoJobQueueCrawling' => CoreOptions::get( 'autoJobQueueCrawling' ),
             'autoJobQueuePostProcessing' => CoreOptions::get( 'autoJobQueuePostProcessing' ),
             'autoJobQueueDeployment' => CoreOptions::get( 'autoJobQueueDeployment' ),
+            'serverLimitation' => CoreOptions::get( 'serverLimitation' ),
         ];
 
         $view = apply_filters( 'wp2static_render_jobs_page_vars', $view );

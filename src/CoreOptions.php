@@ -109,6 +109,14 @@ class CoreOptions {
 
         $queries[] = $wpdb->prepare(
             $query_string,
+            'serverLimitation',
+            '',
+            'Server hostname to limit cron runs to',
+            'WP-Cron will only process the Job Queue on the server with the following hostname'
+        );
+
+        $queries[] = $wpdb->prepare(
+            $query_string,
             'processQueueInterval',
             '0',
             'Interval to process queue with WP-Cron',
@@ -475,6 +483,12 @@ class CoreOptions {
                     $table_name,
                     [ 'value' => isset( $_POST['autoJobQueueDeployment'] ) ? 1 : 0 ],
                     [ 'name' => 'autoJobQueueDeployment' ]
+                );
+
+                $wpdb->update(
+                		$table_name,
+                		[ 'value' => sanitize_text_field( $_POST['serverLimitation'] ) ],
+                		[ 'name' => 'serverLimitation' ]
                 );
 
                 break;

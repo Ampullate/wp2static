@@ -350,11 +350,11 @@ class Controller {
     }
 
     public static function wp2staticProcessJobsQueue() : void {
-        check_admin_referer( 'wp2static-ui-job-options' );
+        check_admin_referer( 'wp2static-manually-run-jobs' );
 
         WsLog::l( 'Manually processing JobQueue' );
 
-        self::wp2staticProcessQueue();
+        self::wp2staticProcessQueue(true);
 
         wp_safe_redirect( admin_url( 'admin.php?page=wp2static-jobs' ) );
         exit;
@@ -552,7 +552,18 @@ class Controller {
         Should only process at most 4 jobs here (1 per type), with
         earlier jobs of the same type having been "squashed" first
     */
-    public static function wp2staticProcessQueue() : void {
+    public static function wp2staticProcessQueue($manuallyStarted = false) : void {
+        // If manually started, go ahead, otherwise check to see if the
+        // server selection options are met
+        if ( ! $manuallyStarted ) {
+            $serverHostnameToRunOn = CoreOptions::get( 'serverLimitation' )->value;
+            $currentHostname = gethostname();
+            if ( trim( $serverHostnameToRunOn ) != '' && $serverHostnameToRunOn !== $currentHostname ) {
+                // don't run: the servername doesn't match
+                return;
+            }
+        }
+
         // skip any earlier jobs of same type still in 'waiting' status
         JobQueue::squashQueue();
 
